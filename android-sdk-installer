@@ -4,6 +4,7 @@
 SDK_FILE=android-sdk_r22.2.1-linux.tgz
 SDK_URL=http://dl.google.com/android/$SDK_FILE
 DEFAULT_INSTALL=platform-tools
+WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/master/wait_for_emulator
 
 # Defaults
 INSTALLER_DIR=$HOME/.android-sdk-installer
@@ -27,9 +28,12 @@ done
 # Expand the path
 INSTALLER_DIR=`readlink -f "$INSTALLER_DIR"`
 
+TOOLS_DIR=$INSTALLER_DIR/tools
+
 echo "Installing SDK in $INSTALLER_DIR"
 
 mkdir -p $INSTALLER_DIR
+mkdir -p $TOOLS_DIR
 
 echo "Downloading SDK"
 wget -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
@@ -38,8 +42,14 @@ tar xzf $INSTALLER_DIR/$SDK_FILE --directory $INSTALLER_DIR
 
 export ANDROID_HOME=$INSTALLER_DIR/android-sdk-linux
 
+# Download wait_for_emulator script
+wget -q -O $TOOLS_DIR/wait_for_emulator $WAIT_FOR_EMULATOR_URL
+chmod +x $TOOLS_DIR/wait_for_emulator
+
+
+# Setup environment file
 echo "export ANDROID_HOME=$ANDROID_HOME" > $INSTALLER_DIR/env
-echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:\$PATH" >> $INSTALLER_DIR/env
+echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$PATH" >> $INSTALLER_DIR/env
 
 ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
 

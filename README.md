@@ -20,12 +20,21 @@ To get a full list of available SDK components, run:
 
     android list sdk --extended -a
 
-
 Currently the script is optimized to be run in a clean environment, and does not efficiently update an existing environment (it may download and install 
 existing components again).
 
 You may also include the script directly in your project, but then it will not be updated to handle newer Android SDK releases.
 
+### Emulator
+
+The script also downloads and installs the wait_for_emulator script, which can be used to wait until the emulator has started.
+
+Typical usage:
+
+    echo no | android create avd --force -n test -t android-17 --abi armeabi-v7a
+    emulator -avd test -no-skin -no-audio -no-window &
+    wait_for_emulator
+    
 ## Operating System Notes
 
 ### Ubuntu
