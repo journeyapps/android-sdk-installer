@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Constants
-SDK_FILE=android-sdk_r22.0.4-linux.tgz
+SDK_FILE=android-sdk_r22.2.1-linux.tgz
 SDK_URL=http://dl.google.com/android/$SDK_FILE
 DEFAULT_INSTALL=platform-tools
 
 # Defaults
-INSTALLER_DIR=$/.android-sdk-installer
+INSTALLER_DIR=$HOME/.android-sdk-installer
 INSTALL=""
 
 for i in "$@"
