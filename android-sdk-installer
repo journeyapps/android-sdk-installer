@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Copyright (c) 2013 Embark Mobile
+# Licensed under the MIT License.
+# https://github.com/embarkmobile/android-sdk-installer
+
 # Constants
 SDK_FILE=android-sdk_r22.2.1-linux.tgz
 SDK_URL=http://dl.google.com/android/$SDK_FILE
@@ -51,8 +55,8 @@ chmod +x $TOOLS_DIR/wait_for_emulator
 echo "export ANDROID_HOME=$ANDROID_HOME" > $INSTALLER_DIR/env
 echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$PATH" >> $INSTALLER_DIR/env
 
+# Install components
 ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
-
 
 echo "Installing $ALL_INSTALL"
 echo y | $ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL

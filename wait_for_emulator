@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Originally written by Ralf Kistner <ralf@embarkmobile.com>, but placed in the public domain
+
 bootanim=""
 failcounter=0
 until [[ "$bootanim" =~ "stopped" ]]; do

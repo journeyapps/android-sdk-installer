@@ -51,6 +51,16 @@ Not supported currently, but may be supported in the future (pull requests welco
 
 Will probably not be supported.
 
+## Backwards Compatibility
+
+For CI environments it is important that the same setup script continue working over time. Therefore an effort will be made to:
+
+1. Keep the script always stable and working as documented below.
+2. Keep the script working as far as possible with newer Android SDK versions, without breaking existing builds.
+
+We assume for example that newer versions of for example platform-tools will remain backwards compatible, but that a specific version of build-tools and specific Android versions may be required.
+
+If the API / usage pattern of this script is ever changed, it will be released under a new URL (new branch), and the old version will conitnue running as before. You should always use a version from a specific version branch, and not directly from master.
 
 ## Sample Travis CI Configuration
 
@@ -83,4 +93,8 @@ This assumes that the new Gradle-based Android build system is used, with the Gr
 
 ## License
 
-All files in this project are under the MIT license.
+Unless indicated otherwise, files in this project are under the MIT license.
+
+When using / adapting these scripts in your own projects, I only ask that you keep the copyright headers, including the link back to this project.
+
+
