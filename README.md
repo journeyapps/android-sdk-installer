@@ -51,6 +51,36 @@ Not supported currently, but may be supported in the future (pull requests welco
 
 Will probably not be supported.
 
+
+## Sample Travis CI Configuration
+
+This assumes that the new Gradle-based Android build system is used, with the Gradle wrapper.
+
+    language: java
+    jdk: oraclejdk7
+    before_install:
+        # Install base Android SDK and components
+        - sudo apt-get install -qq libstdc++6:i386 lib32z1
+        - export COMPONENTS=build-tools-18.1.0,android-17,sysimg-17,extra-android-support,extra-google-google_play_services,extra-google-gcm,build-tools-18.1.0,extra-google-m2repository,extra-android-m2repository
+        - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/master/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
+        - source ~/.android-sdk-installer/env
+
+        # Create and start emulator
+        - echo no | android create avd --force -n test -t android-17 --abi armeabi-v7a
+        - emulator -avd test -no-skin -no-audio -no-window &
+
+    install:
+        # Without TERM=dumb, we get mangled output in the Travis console
+        - TERM=dumb ./gradlew assemble
+
+    before_script:
+        # Make sure the emulator has started before running tests
+        - wait_for_emulator
+
+    script:
+        - TERM=dumb ./gradlew test connectedCheck
+
+
 ## License
 
 All files in this project are under the MIT license.
