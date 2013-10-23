@@ -4,7 +4,7 @@ Installer script for the Android SDK. Designed to simplify automated setup of CI
 
 ## Usage
 
-    curl -L https://raw.github.com/embarkmobile/android-sdk-installer/master/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sysimg-17 && source ~/.android-sdk-installer/env
+    curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-1/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sysimg-17 && source ~/.android-sdk-installer/env
 
 The above command will download and install the SDK in `$HOME/.android-sdk-installer`. You can override it with `--dir=custom_path`.
 
@@ -62,7 +62,7 @@ This assumes that the new Gradle-based Android build system is used, with the Gr
         # Install base Android SDK and components
         - sudo apt-get install -qq libstdc++6:i386 lib32z1
         - export COMPONENTS=build-tools-18.1.0,android-17,sysimg-17,extra-android-support,extra-google-google_play_services,extra-google-gcm,build-tools-18.1.0,extra-google-m2repository,extra-android-m2repository
-        - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/master/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
+        - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-1/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
         - source ~/.android-sdk-installer/env
 
         # Create and start emulator
