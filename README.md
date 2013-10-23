@@ -1,5 +1,7 @@
 # Android SDK Installer
 
+Installer script for the Android SDK. Designed to simplify automated setup of CI environments.
+
 ## Usage
 
     curl -L https://raw.github.com/embarkmobile/android-sdk-installer/master/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sysimg-17 && source ~/.android-sdk-installer/env
