@@ -91,6 +91,11 @@ This assumes that the new Gradle-based Android build system is used, with the Gr
         - TERM=dumb ./gradlew test connectedCheck
 
 
+### More Travis CI examples
+
+* [Robospice](https://github.com/octo-online/robospice/blob/master/.travis.yml) - Testing on multiple emulators in parallel, using Maven
+* [ZXing Android Minimal](https://github.com/embarkmobile/zxing-android-minimal/blob/master/.travis.yml) - Building both an apklib with Maven, and aar with Gradle (no tests)
+
 ## License
 
 Unless indicated otherwise, files in this project are under the MIT license.
