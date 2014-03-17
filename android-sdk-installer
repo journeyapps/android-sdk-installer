@@ -4,9 +4,23 @@
 # Licensed under the MIT License.
 # https://github.com/embarkmobile/android-sdk-installer
 
+set +e
+
+#detecting os
+os=linux
+if [[ `uname` == 'Darwin' ]]; then
+    os=osx
+fi
+
 # Constants
-SDK_FILE=android-sdk_r22.3-linux.tgz
-SDK_URL=http://dl.google.com/android/$SDK_FILE
+if [[ $os == 'linux' ]]; then
+    SDK_FILE=android-sdk_r22.3-linux.tgz
+    SDK_URL=http://dl.google.com/android/$SDK_FILE
+elif [[ $os == 'osx' ]]; then
+    SDK_FILE=adt-bundle-mac-x86_64-20131030.zip
+    SDK_URL=http://dl.google.com/android/adt/$SDK_FILE
+fi
+
 DEFAULT_INSTALL=platform-tools
 WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-1/wait_for_emulator
 
@@ -30,7 +44,11 @@ esac
 done
 
 # Expand the path
-INSTALLER_DIR=`readlink -f "$INSTALLER_DIR"`
+if [[ $os == 'linux' ]]; then
+    INSTALLER_DIR=`readlink -f "$INSTALLER_DIR"`
+elif [[ $os == 'osx' ]]; then
+    INSTALLER_DIR=`stat -f "$INSTALLER_DIR"`
+fi
 
 TOOLS_DIR=$INSTALLER_DIR/tools
 
@@ -42,9 +60,14 @@ mkdir -p $TOOLS_DIR
 echo "Downloading SDK"
 wget -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
 echo "Extracting SDK"
-tar xzf $INSTALLER_DIR/$SDK_FILE --directory $INSTALLER_DIR
 
-export ANDROID_HOME=$INSTALLER_DIR/android-sdk-linux
+if [[ $os == 'linux' ]]; then
+    tar xzf $INSTALLER_DIR/$SDK_FILE --directory $INSTALLER_DIR
+    export ANDROID_HOME=$INSTALLER_DIR/android-sdk-linux
+elif [[ $os == 'osx' ]]; then
+    unzip -q -d $INSTALLER_DIR $INSTALLER_DIR/$SDK_FILE
+    export ANDROID_HOME=$INSTALLER_DIR/adt-bundle-mac-x86_64-20131030/sdk
+fi
 
 # Download wait_for_emulator script
 wget -q -O $TOOLS_DIR/wait_for_emulator $WAIT_FOR_EMULATOR_URL
@@ -59,4 +82,4 @@ echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$
 ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
 
 echo "Installing $ALL_INSTALL"
-echo y | $ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL
+( while [ 1 ]; do sleep 5; echo y; done ) | $ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL

@@ -2,6 +2,8 @@
 
 # Originally written by Ralf Kistner <ralf@embarkmobile.com>, but placed in the public domain
 
+set +e
+
 bootanim=""
 failcounter=0
 until [[ "$bootanim" =~ "stopped" ]]; do
