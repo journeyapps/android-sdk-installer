@@ -5,7 +5,7 @@
 # https://github.com/embarkmobile/android-sdk-installer
 
 # Constants
-SDK_FILE=android-sdk_r22.2.1-linux.tgz
+SDK_FILE=android-sdk_r22.6-linux.tgz
 SDK_URL=http://dl.google.com/android/$SDK_FILE
 DEFAULT_INSTALL=platform-tools
 WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-1/wait_for_emulator
