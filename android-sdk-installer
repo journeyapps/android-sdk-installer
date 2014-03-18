@@ -81,5 +81,5 @@ echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$
 ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
 
 echo "Installing $ALL_INSTALL"
-( while [ 1 ]; do sleep 5; echo y; done ) | $ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL
+echo y | $ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL
 
