@@ -15,11 +15,10 @@ fi
 # Constants
 if [[ $os == 'linux' ]]; then
     SDK_FILE=android-sdk_r22.3-linux.tgz
-    SDK_URL=http://dl.google.com/android/$SDK_FILE
 elif [[ $os == 'osx' ]]; then
-    SDK_FILE=adt-bundle-mac-x86_64-20131030.zip
-    SDK_URL=http://dl.google.com/android/adt/$SDK_FILE
+    SDK_FILE=android-sdk_r22.3-macosx.zip
 fi
+SDK_URL=http://dl.google.com/android/$SDK_FILE
 
 DEFAULT_INSTALL=platform-tools
 WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-1/wait_for_emulator
@@ -66,7 +65,7 @@ if [[ $os == 'linux' ]]; then
     export ANDROID_HOME=$INSTALLER_DIR/android-sdk-linux
 elif [[ $os == 'osx' ]]; then
     unzip -q -d $INSTALLER_DIR $INSTALLER_DIR/$SDK_FILE
-    export ANDROID_HOME=$INSTALLER_DIR/adt-bundle-mac-x86_64-20131030/sdk
+    export ANDROID_HOME=$INSTALLER_DIR/android-sdk-macosx
 fi
 
 # Download wait_for_emulator script
@@ -83,3 +82,4 @@ ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
 
 echo "Installing $ALL_INSTALL"
 ( while [ 1 ]; do sleep 5; echo y; done ) | $ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL
+
