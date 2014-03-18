@@ -45,7 +45,7 @@ You may need to install the following first:
 
 ### Mac
 
-Not supported currently, but may be supported in the future (pull requests welcome).
+Supported, thanks to a contribution by [sebv](https://github.com/sebv).
 
 ### Windows
 
