@@ -21,11 +21,13 @@ fi
 SDK_URL=http://dl.google.com/android/$SDK_FILE
 
 DEFAULT_INSTALL=platform-tools
-WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-1/wait_for_emulator
+WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-2/wait_for_emulator
+ACCEPT_LICENSES_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-2/accept-licenses
 
 # Defaults
 INSTALLER_DIR=$HOME/.android-sdk-installer
 INSTALL=""
+LICENSES="android-sdk-license-bcbbd656"
 
 for i in "$@"
 do
@@ -35,6 +37,9 @@ case $i in
     ;;
     --install=*)
     INSTALL=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
+    ;;
+    --accept=*)
+    LICENSES=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
     ;;
     *)
     # unknown option
@@ -68,9 +73,11 @@ elif [[ $os == 'osx' ]]; then
     export ANDROID_HOME=$INSTALLER_DIR/android-sdk-macosx
 fi
 
-# Download wait_for_emulator script
+# Download scripts
 wget -q -O $TOOLS_DIR/wait_for_emulator $WAIT_FOR_EMULATOR_URL
 chmod +x $TOOLS_DIR/wait_for_emulator
+wget -q -O $TOOLS_DIR/accept-licenses $ACCEPT_LICENSES_URL
+chmod +x $TOOLS_DIR/accept-licenses
 
 
 # Setup environment file
@@ -81,5 +88,4 @@ echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$
 ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
 
 echo "Installing $ALL_INSTALL"
-echo y | $ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL
-
+$TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android update sdk --no-ui -a --filter $ALL_INSTALL" "$LICENSES"
