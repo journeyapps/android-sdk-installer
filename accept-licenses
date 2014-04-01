@@ -1,6 +1,6 @@
 #!/usr/bin/expect -f
 
-# Usage:
+# Usage example:
 #  ./accept-licenses "android update sdk --no-ui --all --filter build-tools" "android-sdk-license-bcbbd656|intel-android-sysimage-license-1ea702d1"
 
 set timeout 1800

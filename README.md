@@ -4,7 +4,7 @@ Installer script for the Android SDK. Designed to simplify automated setup of CI
 
 ## Usage
 
-    curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sysimg-17 && source ~/.android-sdk-installer/env
+    curl -3L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sysimg-17 && source ~/.android-sdk-installer/env
 
 The above command will download and install the SDK in `$HOME/.android-sdk-installer`. You can override it with `--dir=custom_path`.
 
@@ -35,7 +35,7 @@ separated by a pipe character:
 
     set COMPONENTS="build-tools-18.1.0,android-17,sysimg-17"
     set LICENSES="android-sdk-license-bcbbd656|mips-android-sysimage-license-15de68cc|intel-android-sysimage-license-1ea702d1"
-    curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS --accept=$LICENSES && source ~/.android-sdk-installer/env
+    curl -3L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS --accept=$LICENSES && source ~/.android-sdk-installer/env
 
 You can also use the accept-license script to install components afterwards:
 
