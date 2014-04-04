@@ -2,6 +2,11 @@
 
 Installer script for the Android SDK. Designed to simplify automated setup of CI environments.
 
+
+## Sponsored by
+
+[Journey][1] - Build enterprise mobile apps for iOS and Android. Work in the cloud, code in JavaScript and forget about back-end development.
+
 ## Usage
 
     curl -3L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sysimg-17 && source ~/.android-sdk-installer/env
@@ -125,6 +130,6 @@ This assumes that the new Gradle-based Android build system is used, with the Gr
 
 Unless indicated otherwise, files in this project are under the MIT license.
 
-When using / adapting these scripts in your own projects, I only ask that you keep the copyright headers, including the link back to this project.
+When using / adapting these scripts in your own projects, you only need to keep the copyright headers, including the link back to this project.
 
-
+[1]: http://journeyapps.com
