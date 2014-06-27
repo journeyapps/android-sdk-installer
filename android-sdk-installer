@@ -14,9 +14,9 @@ fi
 
 # Constants
 if [[ $os == 'linux' ]]; then
-    SDK_FILE=android-sdk_r22.6.2-linux.tgz
+    SDK_FILE=android-sdk_r23-linux.tgz
 elif [[ $os == 'osx' ]]; then
-    SDK_FILE=android-sdk_r22.6.2-macosx.zip
+    SDK_FILE=android-sdk_r23-macosx.zip
 fi
 SDK_URL=http://dl.google.com/android/$SDK_FILE
 
