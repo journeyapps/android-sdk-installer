@@ -27,7 +27,7 @@ ACCEPT_LICENSES_URL=https://github.com/embarkmobile/android-sdk-installer/raw/ve
 # Defaults
 INSTALLER_DIR=$HOME/.android-sdk-installer
 INSTALL=""
-LICENSES="android-sdk-license-bcbbd656"
+LICENSES="android-sdk-license-5be876d5"
 
 for i in "$@"
 do
