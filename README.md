@@ -7,6 +7,13 @@ Installer script for the Android SDK. Designed to simplify automated setup of CI
 
 [Journey][1] - Build enterprise mobile apps for iOS and Android. Work in the cloud, code in JavaScript and forget about back-end development.
 
+## Notable alternatives
+
+If you're using Gradle, https://github.com/JakeWharton/sdk-manager-plugin handles the installation of the SDK,
+as well as keeping it up to date, with minimal configuration.
+
+If you are using Travis CI, they added [built-in support](http://docs.travis-ci.com/user/languages/android/) for Android. You can use the above Gradle plugin on top of Travis' Android support.
+
 ## Update - 2014/06/27 - Android SDK r23
 
 With the release of Android SDK version 23, there are some backwards-incompatible changes:
