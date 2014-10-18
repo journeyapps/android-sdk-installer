@@ -117,7 +117,7 @@ This assumes that the new Gradle-based Android build system is used, with the Gr
     before_install:
         # Install base Android SDK and components
         - sudo apt-get install -qq libstdc++6:i386 lib32z1
-        - export COMPONENTS=build-tools-18.1.0,android-17,sysimg-17,extra-android-support,extra-google-google_play_services,extra-google-gcm,build-tools-18.1.0,extra-google-m2repository,extra-android-m2repository
+        - export COMPONENTS=build-tools-18.1.0,android-17,sys-img-armeabi-v7a-android-17,extra-android-support,extra-google-google_play_services,extra-google-gcm,build-tools-18.1.0,extra-google-m2repository,extra-android-m2repository
         - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-1/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
         - source ~/.android-sdk-installer/env
 
@@ -136,11 +136,6 @@ This assumes that the new Gradle-based Android build system is used, with the Gr
     script:
         - TERM=dumb ./gradlew test connectedCheck
 
-
-### More Travis CI examples
-
-* [Robospice](https://github.com/octo-online/robospice/blob/master/.travis.yml) - Testing on multiple emulators in parallel, using Maven
-* [ZXing Android Minimal](https://github.com/embarkmobile/zxing-android-minimal/blob/master/.travis.yml) - Building both an apklib with Maven, and aar with Gradle (no tests)
 
 ## License
 
