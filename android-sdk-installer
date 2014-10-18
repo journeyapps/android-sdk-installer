@@ -74,10 +74,9 @@ elif [[ $os == 'osx' ]]; then
 fi
 
 # Download scripts
-# Mac on Travis has issues with SSL certs if we don't use the -3 / -ssl3 option
-curl -3L -o $TOOLS_DIR/wait_for_emulator $WAIT_FOR_EMULATOR_URL
+curl -L -o $TOOLS_DIR/wait_for_emulator $WAIT_FOR_EMULATOR_URL
 chmod +x $TOOLS_DIR/wait_for_emulator
-curl -3L -o $TOOLS_DIR/accept-licenses $ACCEPT_LICENSES_URL
+curl -L -o $TOOLS_DIR/accept-licenses $ACCEPT_LICENSES_URL
 chmod +x $TOOLS_DIR/accept-licenses
 
 
