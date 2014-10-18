@@ -25,7 +25,7 @@ With the release of Android SDK version 23, there are some backwards-incompatibl
 
 ## Usage
 
-    curl -3L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sys-img-armeabi-v7a-android-17 && source ~/.android-sdk-installer/env
+    curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=build-tools-18.1.0,android-17,sys-img-armeabi-v7a-android-17 && source ~/.android-sdk-installer/env
 
 The above command will download and install the SDK in `$HOME/.android-sdk-installer`. You can override it with `--dir=custom_path`.
 
@@ -51,12 +51,12 @@ You may also include the script directly in your project, but then it will not b
 By default, only the `android-sdk-license-5be876d5` license is accepted. This has the side-effect of preventing
 the install of MIPS emulator images, as well as some other components which are usually not required.
 
-If you do need to install these components, you can override the accepted licenses by using the `--accept` option, 
+If you do need to install these components, you can override the accepted licenses by using the `--accept` option,
 separated by a pipe character:
 
     set COMPONENTS="build-tools-18.1.0,android-17,sysimg-17"
     set LICENSES="android-sdk-license-5be876d5|mips-android-sysimage-license-15de68cc|intel-android-sysimage-license-1ea702d1"
-    curl -3L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS --accept=$LICENSES && source ~/.android-sdk-installer/env
+    curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS --accept=$LICENSES && source ~/.android-sdk-installer/env
 
 You can also use the accept-license script to install components afterwards:
 
