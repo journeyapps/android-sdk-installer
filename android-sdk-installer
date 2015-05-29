@@ -62,7 +62,7 @@ mkdir -p $INSTALLER_DIR
 mkdir -p $TOOLS_DIR
 
 echo "Downloading SDK"
-wget -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
+wget -nv -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
 echo "Extracting SDK"
 
 if [[ $os == 'linux' ]]; then
@@ -88,4 +88,4 @@ echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$
 ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
 
 echo "Installing $ALL_INSTALL"
-$TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android update sdk --silent --no-ui -a --filter $ALL_INSTALL" "$LICENSES"
+$TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android --silent update sdk --no-ui -a --filter $ALL_INSTALL" "$LICENSES"
