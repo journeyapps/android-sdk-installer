@@ -69,7 +69,7 @@ if [[ $os == 'linux' ]]; then
     tar xzf $INSTALLER_DIR/$SDK_FILE --directory $INSTALLER_DIR
     export ANDROID_HOME=$INSTALLER_DIR/android-sdk-linux
 elif [[ $os == 'osx' ]]; then
-    unzip -q -d -o $INSTALLER_DIR $INSTALLER_DIR/$SDK_FILE
+    unzip -q -o -d $INSTALLER_DIR $INSTALLER_DIR/$SDK_FILE
     export ANDROID_HOME=$INSTALLER_DIR/android-sdk-macosx
 fi
 
