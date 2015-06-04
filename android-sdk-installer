@@ -20,7 +20,7 @@ elif [[ $os == 'osx' ]]; then
 fi
 SDK_URL=http://dl.google.com/android/$SDK_FILE
 
-DEFAULT_INSTALL=platform-tools
+DEFAULT_INSTALL=platform-tools,tools
 WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-2/wait_for_emulator
 ACCEPT_LICENSES_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-2/accept-licenses
 
@@ -87,10 +87,13 @@ echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$
 # Install components
 ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
 
-if [[ ! -z $INSTALL ]]; then
-    echo "Installing $ALL_INSTALL"
-    $TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android --silent update sdk --no-ui -a --filter $ALL_INSTALL" "$LICENSES"
-else
-    echo "Installing all android components"
-    $TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android --silent update sdk --no-ui --force" "$LICENSES"
+echo "Installing $ALL_INSTALL"
+$TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android --silent update sdk --no-ui -a --filter $ALL_INSTALL" "$LICENSES"
+
+if [[ -z $INSTALL ]]; then
+    #echo "Installing Build Tools"
+    #BUILD_TOOLS=$($ANDROID_HOME/tools/android list sdk --extended --all | grep 'build-tools' | tr " " "\n" | grep "build-tools" | tr "\\n" "," | sed "s/\"//g" | sed "s/,$//")
+    #$TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android update sdk --all -u --filter $BUILD_TOOLS" "$LICENSES"
+    echo "Installing all other android components"
+    $TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android --silent update sdk --force --all --no-ui" "$LICENSES"
 fi
