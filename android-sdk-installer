@@ -82,6 +82,8 @@ needed_packages () {
     sed '/\(Source\)/d' |\
     sed '/\(Documentation\)/d' |\
     sed '/\(MIPS\)/d' |\
+    sed '/\(Android Wear\)/d' |\
+    sed '/\(Android TV\)/d' |\
     # Filter to take only the index number of package
     sed 's/^[ ]*\([0-9]*\)-.*/\1/' |\
     paste -d, -s -
