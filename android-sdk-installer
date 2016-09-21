@@ -23,12 +23,16 @@ SDK_URL=http://dl.google.com/android/$SDK_FILE
 
 # Defaults
 INSTALLER_DIR=$HOME/.android-sdk-installer
+INSTALL_ALL="-a"
 
 for i in "$@"
 do
 case $i in
     --dir=*)
     INSTALLER_DIR=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
+    ;;
+    --skipAll)
+    INSTALL_ALL=""
     ;;
     *)
     # unknown option
@@ -71,7 +75,7 @@ android () {
 }
 
 needed_packages () {
-  android list sdk -u -s -a |\
+  android list sdk -u -s $@ |\
     # Filter obsoleted packages
     grep '\s\+\d\+-'      |\
     sed '/\(Obsolete\)/d' |\
@@ -84,10 +88,11 @@ needed_packages () {
 }
 
 main () {
+  echo $(needed_packages $INSTALL_ALL)
   (while : ; do
   echo 'y'
   sleep 1
-  done) | android update sdk -u -s -a -t "$(needed_packages)"
+  done) | android update sdk -u -s -a -t "$(needed_packages $INSTALL_ALL)"
 }
 
 main
