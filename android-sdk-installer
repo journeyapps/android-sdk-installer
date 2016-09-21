@@ -71,12 +71,16 @@ android () {
 }
 
 needed_packages () {
-  android list sdk -u -s -e         \
-    | grep '^id:'                   \
-    | cut -d'"' -f2                 \
-    | grep -v 'source'              \
-    | grep -v 'doc'                 \
-    | paste -d, -s -
+  android list sdk -u -s -a |\
+    # Filter obsoleted packages
+    grep '\s\+\d\+-'      |\
+    sed '/\(Obsolete\)/d' |\
+    sed '/\(Source\)/d' |\
+    sed '/\(Documentation\)/d' |\
+    sed '/\(MIPS\)/d' |\
+    # Filter to take only the index number of package
+    sed 's/^[ ]*\([0-9]*\)-.*/\1/' |\
+    paste -d, -s -
 }
 
 main () {
