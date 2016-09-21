@@ -13,33 +13,22 @@ if [[ `uname` == 'Darwin' ]]; then
 fi
 
 # Constants
+ANDROID_SDK_VERSION=24.4.1
 if [[ $os == 'linux' ]]; then
-    SDK_FILE=android-sdk_r24.3.3-linux.tgz
+    SDK_FILE=android-sdk_r$ANDROID_SDK_VERSION-linux.tgz
 elif [[ $os == 'osx' ]]; then
-    SDK_FILE=android-sdk_r24.3.3-macosx.zip
+    SDK_FILE=android-sdk_r$ANDROID_SDK_VERSION-macosx.zip
 fi
 SDK_URL=http://dl.google.com/android/$SDK_FILE
 
-DEFAULT_INSTALL=platform-tools,tools
-WAIT_FOR_EMULATOR_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-2/wait_for_emulator
-ACCEPT_LICENSES_URL=https://github.com/embarkmobile/android-sdk-installer/raw/version-2/accept-licenses
-
 # Defaults
 INSTALLER_DIR=$HOME/.android-sdk-installer
-INSTALL=""
-LICENSES="android-sdk-license-5be876d5"
 
 for i in "$@"
 do
 case $i in
     --dir=*)
     INSTALLER_DIR=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
-    ;;
-    --install=*)
-    INSTALL=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
-    ;;
-    --accept=*)
-    LICENSES=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
     ;;
     *)
     # unknown option
@@ -73,27 +62,28 @@ elif [[ $os == 'osx' ]]; then
     export ANDROID_HOME=$INSTALLER_DIR/android-sdk-macosx
 fi
 
-# Download scripts
-curl -L -o $TOOLS_DIR/wait_for_emulator $WAIT_FOR_EMULATOR_URL
-chmod +x $TOOLS_DIR/wait_for_emulator
-curl -L -o $TOOLS_DIR/accept-licenses $ACCEPT_LICENSES_URL
-chmod +x $TOOLS_DIR/accept-licenses
-
-
 # Setup environment file
 echo "export ANDROID_HOME=$ANDROID_HOME" > $INSTALLER_DIR/env
 echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$PATH" >> $INSTALLER_DIR/env
 
-# Install components
-ALL_INSTALL=$DEFAULT_INSTALL,$INSTALL
+android () {
+  "$ANDROID_HOME/tools/android" "$@"
+}
 
-echo "Installing $ALL_INSTALL"
-$TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android --silent update sdk --no-ui -a --filter $ALL_INSTALL" "$LICENSES"
+needed_packages () {
+  android list sdk -u -s -e         \
+    | grep '^id:'                   \
+    | cut -d'"' -f2                 \
+    | grep -v 'source'              \
+    | grep -v 'doc'                 \
+    | paste -d, -s -
+}
 
-if [[ -z $INSTALL ]]; then
-    #echo "Installing Build Tools"
-    #BUILD_TOOLS=$($ANDROID_HOME/tools/android list sdk --extended --all | grep 'build-tools' | tr " " "\n" | grep "build-tools" | tr "\\n" "," | sed "s/\"//g" | sed "s/,$//")
-    #$TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android update sdk --all -u --filter $BUILD_TOOLS" "$LICENSES"
-    echo "Installing all other android components"
-    $TOOLS_DIR/accept-licenses "$ANDROID_HOME/tools/android --silent update sdk --force --all --no-ui" "$LICENSES"
-fi
+main () {
+  (while : ; do
+  echo 'y'
+  sleep 1
+  done) | android update sdk -u -s -a -t "$(needed_packages)"
+}
+
+main
