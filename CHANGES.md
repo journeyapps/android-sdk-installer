@@ -1,3 +1,7 @@
+## 2016-09-25 master
+
+Discarded all prior work and redid it to be more flexible.
+
 ## 2014-04-01 version-2
 
 Support specifying licenses when installing.
