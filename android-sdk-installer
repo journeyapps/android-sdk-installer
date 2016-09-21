@@ -91,3 +91,6 @@ main () {
 }
 
 main
+
+#create symlink
+ln -s ~/.android-sdk-installer/android-sdk-macosx ~/.android-sdk
