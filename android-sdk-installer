@@ -78,7 +78,6 @@ needed_packages () {
   android list sdk -u -s $@ |\
     # Filter obsoleted packages
     grep '\s\+\d\+-'      |\
-    sed '/\(Obsolete\)/d' |\
     sed '/\(Source\)/d' |\
     sed '/\(Documentation\)/d' |\
     sed '/\(MIPS\)/d' |\
