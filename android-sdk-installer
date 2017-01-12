@@ -70,6 +70,11 @@ fi
 echo "export ANDROID_HOME=$ANDROID_HOME" > $INSTALLER_DIR/env
 echo "export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$TOOLS_DIR:\$PATH" >> $INSTALLER_DIR/env
 
+# Accept all licences
+mkdir -p "$ANDROID_HOME/licenses"
+echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+
 android () {
   "$ANDROID_HOME/tools/android" "$@"
 }
