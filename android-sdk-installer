@@ -91,7 +91,6 @@ needed_packages () {
     sed '/\(Android Wear\)/d' |\
     sed '/\(Android TV\)/d' |\
     sed '/\(ARM 64\)/d' |\
-    sed '/\(- ARM EABI v7a\)/d' |\
 
     # Filter to take only the index number of package
     sed 's/^[ ]*\([0-9]*\)-.*/\1/' |\
