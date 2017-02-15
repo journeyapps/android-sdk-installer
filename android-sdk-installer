@@ -88,7 +88,6 @@ needed_packages () {
     sed '/\(MIPS\)/d' |\
     sed '/\(Obsolete\)/d' |\
     sed '/\(Intel\)/d' |\
-    sed '/\(System Image\)/d' |\
     sed '/\(Android Wear\)/d' |\
     sed '/\(Android TV\)/d' |\
 
