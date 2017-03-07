@@ -43,7 +43,7 @@ if [[ $os == 'linux' ]]; then
     export JAVA7_HOME='/usr/lib/jvm/java-7-oracle';
     export JAVA8_HOME='/usr/lib/jvm/java-8-oracle';
     export JAVA_HOME=$JAVA8_HOME
-    export ANDROID_HOME=$ANDROID_HOME/android-sdk-linux
+    export ANDROID_HOME=$INSTALLER_DIR/android-sdk-linux
     export TOOLS_DIR=$ANDROID_HOME/tools
 elif [[ $os == 'osx' ]]; then
     INSTALLER_DIR=`stat -f "$INSTALLER_DIR"`
