@@ -40,6 +40,9 @@ done
 # Expand the path
 if [[ $os == 'linux' ]]; then
     INSTALLER_DIR=`readlink -f "$INSTALLER_DIR"`
+    export JAVA7_HOME='/usr/lib/jvm/java-7-oracle';
+    export JAVA8_HOME='/usr/lib/jvm/java-8-oracle';
+    export JAVA_HOME=$JAVA8_HOME
     export ANDROID_HOME=$ANDROID_HOME/android-sdk-linux
     export TOOLS_DIR=$ANDROID_HOME/tools
 elif [[ $os == 'osx' ]]; then
@@ -61,7 +64,7 @@ echo "Installing SDK in $INSTALLER_DIR"
 echo "Downloading SDK"
 wget -nv -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
 echo "Extracting SDK"
-tar xzf $INSTALLER_DIR/$SDK_FILE -C $ANDROID_HOME
+unzip -q -o -d $ANDROID_HOME $INSTALLER_DIR/$SDK_FILE
 
 # Setup environment file
 echo "export ANDROID_HOME=$ANDROID_HOME" > $INSTALLER_DIR/env
