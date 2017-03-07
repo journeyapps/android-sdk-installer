@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2013 Embark Mobile
-# Licensed under the MIT License.
-# https://github.com/embarkmobile/android-sdk-installer
-
 set +e
 
 #detecting os
