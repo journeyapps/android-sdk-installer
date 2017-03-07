@@ -13,4 +13,5 @@
     sed '/\(android-wear\)/d' |\
     sed '/\(x86\)/d' |\
     sed '/\(arm64\)/d' |\
+    sed '/\(^tools\)/d' |\
     sed '/\(done\)/d' > test.txt
