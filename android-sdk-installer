@@ -111,6 +111,7 @@ get_needed_packages () {
     sed '/\(usb\)/d' |\
     sed '/\(x86\)/d' |\
     sed '/\(arm64\)/d' |\
+    sed '/\(tools\)/d' |\
     sed '/\(system-images;android-23;default\)/d' |\
     sed '/\(done\)/d' > $SDK_MANAGER_PACKAGES_FILE
 }
