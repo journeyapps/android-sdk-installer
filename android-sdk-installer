@@ -10,7 +10,7 @@ if [[ `uname` == 'Darwin' ]]; then
 fi
 
 # Constants
-ANDROID_SDK_VERSION=25.2.3
+ANDROID_SDK_VERSION=25.2.4
 if [[ $os == 'linux' ]]; then
     SDK_FILE=tools_r$ANDROID_SDK_VERSION-linux.zip
 elif [[ $os == 'osx' ]]; then
@@ -45,10 +45,12 @@ if [[ $os == 'linux' ]]; then
     export JAVA_HOME=$JAVA8_HOME
     export ANDROID_HOME=$INSTALLER_DIR/android-sdk-linux
     export TOOLS_DIR=$ANDROID_HOME/tools
+    export ANDROID_STORE=/root/.android
 elif [[ $os == 'osx' ]]; then
     INSTALLER_DIR=`stat -f "$INSTALLER_DIR"`
     export ANDROID_HOME=$INSTALLER_DIR/android-sdk-macosx
     export TOOLS_DIR=$ANDROID_HOME/tools
+    export ANDROID_STORE=$HOME/.android
 fi
 
 SDK_MANAGER_PACKAGES_FILE=$INSTALLER_DIR/sdk_package.txt
@@ -91,8 +93,10 @@ licenses () {
 }
 
 get_needed_packages () {
-  sdkmanager --list --verbose |\
-    # Filter obsoleted packages
+  sdkmanager --list --verbose && \
+    # This is a hack as 25.2.4- tools do not correctly list paths for sdkmanager
+    grep -Riwo -e "path.*>" $ANDROID_STORE | awk -F'path="' -F'"' {'print $2'} | sort | uniq |\
+    # Filter packages
     egrep '^\S+'      |\
     sed '/\(---\)/d'  |\
     sed '/\(Info\)/d' |\
@@ -103,16 +107,24 @@ get_needed_packages () {
     sed '/\(mips\)/d' |\
     sed '/\(intel\)/d' |\
     sed '/\(android-wear\)/d' |\
+    sed '/\(usb\)/d' |\
     sed '/\(x86\)/d' |\
     sed '/\(arm64\)/d' |\
+    sed '/\(system-images;android-23;default\)/d' |\
     sed '/\(done\)/d' > $SDK_MANAGER_PACKAGES_FILE
 }
 
 main () {
- update_sdkmanager
- licenses
+# The below are disabled as we currently can't move to sdk tools 25.2.5 since it removes android binary
+# and customers are reliant on the utility existing.
+# update_sdkmanager
+# licenses
  get_needed_packages
- sdkmanager --package_file=$SDK_MANAGER_PACKAGES_FILE --verbose
+
+ (while : ; do
+  echo 'y'
+  sleep 1
+  done) | sdkmanager --package_file=$SDK_MANAGER_PACKAGES_FILE --verbose
 }
 
 main
