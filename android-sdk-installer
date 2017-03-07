@@ -106,6 +106,7 @@ get_needed_packages () {
     sed '/\(docs\)/d' |\
     sed '/\(mips\)/d' |\
     sed '/\(intel\)/d' |\
+    sed '/\(android-tv\)/d' |\
     sed '/\(android-wear\)/d' |\
     sed '/\(usb\)/d' |\
     sed '/\(x86\)/d' |\
