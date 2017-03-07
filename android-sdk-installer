@@ -118,4 +118,4 @@ main () {
 main
 
 #create symlink
-ln -s $INSTALLER_DIR/android-sdk-macosx $HOME/.android-sdk
+ln -s $ANDROID_HOME $HOME/.android-sdk
