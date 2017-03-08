@@ -9,7 +9,8 @@ if [[ `uname` == 'Darwin' ]]; then
     os=osx
 fi
 
-# Constants
+# Do not move to 25.2.5 just yet
+# It has backwards incompatible changes (i.e. completely deprecating android/emulator)
 ANDROID_SDK_VERSION=25.2.4
 if [[ $os == 'linux' ]]; then
     SDK_FILE=tools_r$ANDROID_SDK_VERSION-linux.zip
@@ -20,16 +21,12 @@ SDK_URL=https://dl-ssl.google.com/android/repository/$SDK_FILE
 
 # Defaults
 INSTALLER_DIR=$HOME/.android-sdk-installer
-INSTALL_ALL="-a"
 
 for i in "$@"
 do
 case $i in
     --dir=*)
     INSTALLER_DIR=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
-    ;;
-    --skipAll)
-    INSTALL_ALL=""
     ;;
     *)
     # unknown option
@@ -57,16 +54,10 @@ SDK_MANAGER_PACKAGES_FILE=$INSTALLER_DIR/sdk_package.txt
 
 echo "Cleaning SDK in $INSTALLER_DIR"
 rm -rf $INSTALLER_DIR
+rm -rf S
 mkdir -p $INSTALLER_DIR
 mkdir -p $ANDROID_HOME
 mkdir -p $TOOLS_DIR
-
-echo "Installing SDK in $INSTALLER_DIR"
-
-echo "Downloading SDK"
-wget -nv -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
-echo "Extracting SDK"
-unzip -q -o -d $ANDROID_HOME $INSTALLER_DIR/$SDK_FILE
 
 # Setup environment file
 echo "export ANDROID_HOME=$ANDROID_HOME" > $INSTALLER_DIR/env
@@ -81,6 +72,28 @@ sdkmanager () {
   "$ANDROID_HOME/tools/bin/sdkmanager" "$@"
 }
 
+download_sdktools() {
+  echo "Downloading SDK Tools"
+  wget -nv -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
+}
+
+extract_sdktools () {
+  echo "Extracting SDK Tools"
+  unzip -q -o -d $ANDROID_HOME $INSTALLER_DIR/$SDK_FILE
+}
+
+install_sdktools () {
+  echo "Installing SDK Tools in $INSTALLER_DIR"
+  download_sdktools
+  extract_sdktools
+}
+
+overwrite_sdktools () {
+  echo "Overwriting SDK Tools in $INSTALLER_DIR"
+  rm -rf $TOOLS_DIR
+  extract_sdktools
+}
+
 update_sdkmanager () {
   sdkmanager --update
 }
@@ -93,43 +106,46 @@ licenses () {
 }
 
 get_needed_packages () {
-  sdkmanager --list --verbose && \
+  sdkmanager --list --verbose |\
     # This is a hack as 25.2.4- tools do not correctly list paths for sdkmanager
-    grep -Riwo -e "path.*>" $ANDROID_STORE | awk -F'path="' -F'"' {'print $2'} | sort | uniq |\
+    # grep -Riwo -e "path.*>" $ANDROID_STORE | awk -F'path="' -F'"' {'print $2'} | sort | uniq |\
     # Filter packages
     egrep '^\S+'      |\
-    sed '/\(---\)/d'  |\
-    sed '/\(Info\)/d' |\
-    sed '/\(Installed\)/d' |\
-    sed '/\(Available\)/d' |\
-    sed '/\(sources\)/d' |\
-    sed '/\(docs\)/d' |\
-    sed '/\(mips\)/d' |\
-    sed '/\(intel\)/d' |\
-    sed '/\(android-tv\)/d' |\
-    sed '/\(android-wear\)/d' |\
-    sed '/\(usb\)/d' |\
-    sed '/\(x86\)/d' |\
-    sed '/\(arm64\)/d' |\
-    sed '/\(^tools\)/d' |\
-    sed '/\(system-images;android-23;default\)/d' |\
-    sed '/\(done\)/d' > $SDK_MANAGER_PACKAGES_FILE
+    sed -E '/(---)/d'  |\
+    sed -E '/(Info)/d' |\
+    sed -E '/(Installed)/d' |\
+    sed -E '/(Available)/d' |\
+    sed -E '/(sources)/d' |\
+    sed -E '/(docs)/d' |\
+    sed -E '/(mips)/d' |\
+    sed -E '/(intel)/d' |\
+    sed -E '/(android-tv)/d' |\
+    sed -E '/(android-wear)/d' |\
+    sed -E '/(usb)/d' |\
+    sed -E '/(x86)/d' |\
+    sed -E '/(arm64)/d' |\
+    sed -E '/(add-ons;addon-google_apis-google-(15|16|17|18|19))/d' |\
+    sed -E '/(system-images;android-(10|14|15|16|17|18|19|21|22);)/d' |\
+    # avoid installing emulator/tools due to forcing to 25.2.5
+    sed -E '/(^emulator)/d' |\
+    sed -E '/(^tools)/d' |\
+    sed -E '/(done)/d' > $SDK_MANAGER_PACKAGES_FILE
+}
+
+create_symlink () {
+    SYMLINK_PATH=$HOME/.android-sdk
+    rm -rf $SYMLINK_PATH
+    ln -s $ANDROID_HOME $SYMLINK_PATH
 }
 
 main () {
-# The below are disabled as we currently can't move to sdk tools 25.2.5 since it removes android binary
-# and customers are reliant on the utility existing.
-# update_sdkmanager
-# licenses
- get_needed_packages
-
- (while : ; do
-  echo 'y'
-  sleep 1
-  done) | sdkmanager --package_file=$SDK_MANAGER_PACKAGES_FILE --verbose
+  install_sdktools
+  update_sdkmanager
+  licenses
+  get_needed_packages
+  overwrite_sdktools
+  sdkmanager --package_file=$SDK_MANAGER_PACKAGES_FILE --verbose
+  create_symlink
 }
 
 main
-
-#create symlink
-ln -s $ANDROID_HOME $HOME/.android-sdk
