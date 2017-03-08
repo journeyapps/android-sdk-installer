@@ -15,9 +15,10 @@
     sed -E '/(usb)/d' |\
     sed -E '/(x86)/d' |\
     sed -E '/(arm64)/d' |\
-    sed -E '/(platforms;android-(7|8|9))/d' |\
     sed -E '/(add-ons;addon-google_apis-google-(15|16|17|18|19))/d' |\
-    sed -E '/(system-images;android-(10|14|15|16|17|18|19|21|22);)/d' |\
+    # sed -E '/(system-images;android-(10|14|15|16|17|18|19|21|23);)/d' |\
+    # disable system images installation as there's a bad bug with installation
+    sed -E '/(system-images;android)/d' |\
     # avoid installing emulator/tools due to forcing to 25.2.5
     sed -E '/(^emulator)/d' |\
     sed -E '/(^tools)/d' |\
