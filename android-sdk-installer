@@ -72,6 +72,10 @@ sdkmanager () {
   "$ANDROID_HOME/tools/bin/sdkmanager" "$@"
 }
 
+android () {
+  "$ANDROID_HOME/tools/android" "$@"
+}
+
 download_sdktools() {
   echo "Downloading SDK Tools"
   wget -nv -c -O $INSTALLER_DIR/$SDK_FILE $SDK_URL
