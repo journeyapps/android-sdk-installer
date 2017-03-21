@@ -54,7 +54,6 @@ SDK_MANAGER_PACKAGES_FILE=$INSTALLER_DIR/sdk_package.txt
 
 echo "Cleaning SDK in $INSTALLER_DIR"
 rm -rf $INSTALLER_DIR
-rm -rf S
 mkdir -p $INSTALLER_DIR
 mkdir -p $ANDROID_HOME
 mkdir -p $TOOLS_DIR
