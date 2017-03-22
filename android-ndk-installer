@@ -10,15 +10,17 @@ fi
 
 ANDROID_NDK_VERSION=r13b
 INSTALLER_DIR=$HOME/.android-ndk
+ANDROID_NDK_ZIP=$HOME/android-ndk.zip
+ANDROID_NDK_DIR=$HOME/android-ndk-${ANDROID_NDK_VERSION}
 
 rm -rf $INSTALLER_DIR
-rm -rf ./android-ndk.zip
-rm -rf ./android-ndk-${ANDROID_NDK_VERSION}
+rm -rf $ANDROID_NDK_ZIP
+rm -rf $ANDROID_NDK_DIR
 
 cd $HOME
-wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-$os-x86_64.zip -O android-ndk.zip \
-    && unzip -q ./android-ndk.zip \
+wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-$os-x86_64.zip -O $ANDROID_NDK_ZIP \
+    && unzip -q $ANDROID_NDK_ZIP \
     && sync \
-    && mv ./android-ndk-${ANDROID_NDK_VERSION} $INSTALLER_DIR \
-    && rm -rf android-ndk.zip
+    && mv $ANDROID_NDK_DIR $INSTALLER_DIR \
+    && rm -rf $ANDROID_NDK_ZIP
 
