@@ -10,6 +10,7 @@ fi
 
 ANDROID_NDK_VERSION=r13b
 INSTALLER_DIR=$HOME/.android-ndk
+rm -rf $INSTALLER_DIR
 
 cd $HOME
 wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-$os-x86_64.zip -O android-ndk.zip \
