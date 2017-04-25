@@ -8,7 +8,7 @@ if [[ `uname` == 'Darwin' ]]; then
     os=darwin
 fi
 
-ANDROID_NDK_VERSION=r13b
+ANDROID_NDK_VERSION=r14b
 INSTALLER_DIR=$HOME/.android-ndk
 ANDROID_NDK_ZIP=$HOME/android-ndk.zip
 ANDROID_NDK_DIR=$HOME/android-ndk-${ANDROID_NDK_VERSION}
