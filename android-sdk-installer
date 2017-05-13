@@ -105,7 +105,14 @@ update_sdkmanager () {
 }
 
 licenses () {
-  yes | sdkmanager --licenses
+  expect -c '
+    set timeout -1;
+    spawn $env(ANDROID_HOME)/tools/bin/sdkmanager --licenses
+    expect {
+      "(y/N)" { exp_send "y\r" ; exp_continue }
+      eof
+    }
+  '
 }
 
 get_needed_packages () {
