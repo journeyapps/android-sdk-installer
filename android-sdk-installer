@@ -105,10 +105,7 @@ update_sdkmanager () {
 }
 
 licenses () {
-  (while : ; do
-  echo 'y'
-  sleep 1
-  done) | sdkmanager --licenses
+  yes | sdkmanager --licenses
 }
 
 get_needed_packages () {
@@ -148,10 +145,14 @@ install_android () {
 # This function is a hack
 # Could not get emulator creation for google_apis working with sdkmanager usage as of 25.2.4
 install_emulators () {
-  (while : ; do
-  echo 'y'
-  sleep 1
-  done) | android update sdk -u -s -a --filter "sys-img-armeabi-v7a-android-wear-n,sys-img-armeabi-v7a-google_apis-24,sys-img-armeabi-v7a-google_apis-23,sys-img-armeabi-v7a-google_apis-22,sys-img-armeabi-v7a-android-24,sys-img-armeabi-v7a-android-23,sys-img-armeabi-v7a-android-22;"
+  expect -c '
+    set timeout -1;
+    spawn $env(ANDROID_HOME)/tools/android - update sdk -u -s -a --filter "sys-img-armeabi-v7a-android-wear-n,sys-img-armeabi-v7a-google_apis-24,sys-img-armeabi-v7a-google_apis-23,sys-img-armeabi-v7a-google_apis-22,sys-img-armeabi-v7a-android-24,sys-img-armeabi-v7a-android-23,sys-img-armeabi-v7a-android-22;";
+    expect {
+      "Do you accept the license" { exp_send "y\r" ; exp_continue }
+      eof
+    }
+  '
 }
 
 create_symlink () {
