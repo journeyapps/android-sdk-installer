@@ -142,12 +142,7 @@ get_needed_packages () {
     sed -E '/(x86)/d' |\
     sed -E '/(arm64)/d' |\
     sed -E '/(add-ons;addon-google_apis-google-(15|16|17|18|19))/d' |\
-    # sed -E '/(system-images;android-(10|14|15|16|17|18|19|21|23);)/d' |\
-    # disable system images installation using sdk manager
-    # as there's a bug leading to google_apis emulators not being found
-    sed -E '/(system-images;android)/d' |\
-    # avoid installing emulator/tools due to forcing to 25.2.5
-    sed -E '/(^emulator)/d' |\
+    sed -E '/(system-images;android-(10|14|15|16|17|18|19|21|23);)/d' |\
     sed -E '/(^tools)/d' |\
     sed -E '/(done)/d' > $SDK_MANAGER_PACKAGES_FILE
 }
@@ -160,11 +155,15 @@ install_android () {
 # This function is a hack
 # Could not get emulator creation for google_apis working with sdkmanager usage as of 25.2.4
 install_emulators () {
-  expect -c '
+  $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-24;default;arm64-v8a"
+  
+
+  # Do you wish to create a custom hardware profile? [no]
+    expect -c '
     set timeout -1;
-    spawn $env(ANDROID_HOME)/tools/android - update sdk -u -s -a --filter "sys-img-armeabi-v7a-android-wear-n,sys-img-armeabi-v7a-google_apis-24,sys-img-armeabi-v7a-google_apis-23,sys-img-armeabi-v7a-google_apis-22,sys-img-armeabi-v7a-android-24,sys-img-armeabi-v7a-android-23,sys-img-armeabi-v7a-android-22;";
+    spawn $env(ANDROID_HOME)/tools/bin/avdmanager create avd -n BBAVD -k "system-images;android-24;default;arm64-v8a" --force";
     expect {
-      "Do you accept the license" { exp_send "y\r" ; exp_continue }
+      "Do you wish to create a custom hardware profile? \[no\]" { exp_send "n\r" ; exp_continue }
       eof
     }
   '
