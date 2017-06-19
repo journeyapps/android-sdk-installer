@@ -11,14 +11,21 @@ fi
 
 # Do not move to 25.2.5 just yet
 # It has backwards incompatible changes (i.e. completely deprecating android/emulator)
-ANDROID_SDK_VERSION=25.2.4
-if [[ $os == 'linux' ]]; then
-    SDK_FILE=tools_r$ANDROID_SDK_VERSION-linux.zip
-elif [[ $os == 'osx' ]]; then
-    SDK_FILE=tools_r$ANDROID_SDK_VERSION-macosx.zip
-fi
-SDK_URL=https://dl-ssl.google.com/android/repository/$SDK_FILE
 
+# SDK Tools
+# Please refer to https://dl.google.com/android/repository/repository2-1.xml
+
+# This is where all the links for the latest SDK Tools will be
+# https://dl.google.com/android/repository/sdk-tools-linux_3952940.zip
+#ANDROID_SDK_VERSION=26.0.2
+SDK_FILE=sdk-tools
+if [[ $os == 'linux' ]]; then
+    SDK_FILE=$SDK_FILE-linux-3952940.zip
+elif [[ $os == 'osx' ]]; then
+    SDK_FILE=$SDK_FILE-darwin-3952940.zip
+fi
+SDK_URL=https://dl.google.com/android/repository/$SDK_FILE
+export USE_SDK_WRAPPER=true
 # Defaults
 INSTALLER_DIR=$HOME/.android-sdk-installer
 
@@ -146,6 +153,7 @@ get_needed_packages () {
 }
 
 install_android () {
+  echo "Installing SDK and other Android resources"
   sdkmanager --package_file=$SDK_MANAGER_PACKAGES_FILE --verbose
 }
 
