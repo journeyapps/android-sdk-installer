@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This project does not support recent Android SDK versions. Most CI services now include dedicated support or examples to install the Android SDK.
+
 # Android SDK Installer
 
 Installer script for the Android SDK. Designed to simplify automated setup of CI environments.
